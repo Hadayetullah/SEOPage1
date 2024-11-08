@@ -86,7 +86,7 @@ export default function Home() {
                           <Card
                             key={index}
                             handleResponseData={handleResponseData}
-                            count={response.length}
+                            data={response}
                           />
                         ))}
                       </>

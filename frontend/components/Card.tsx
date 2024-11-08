@@ -5,10 +5,11 @@ import axios from "axios";
 import Image from "next/image";
 import UploadModal from "./UploadModal";
 import Loader from "./Loader";
+import FileList from "./FileList";
 
 interface CardProps {
   handleResponseData: (data: FileData[]) => void;
-  count: number;
+  data: FileData[];
 }
 
 export type FileData = {
@@ -22,8 +23,9 @@ export type FileUploadResponse = {
   all_files: FileData[];
 };
 
-const Card: React.FC<CardProps> = ({ handleResponseData, count }) => {
+const Card: React.FC<CardProps> = ({ handleResponseData, data }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showFileList, setShowFileList] = useState<boolean>(false);
   const [showLoader, setShowLoader] = useState<boolean>(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
@@ -163,7 +165,12 @@ const Card: React.FC<CardProps> = ({ handleResponseData, count }) => {
               onClick={handleIconClick}
             />
 
-            <h4>{count}</h4>
+            <div
+              onClick={() => setShowFileList(true)}
+              className="w-[16px] h-[16px] flex flex-row items-center cursor-pointer"
+            >
+              <h4>{data.length}</h4>
+            </div>
           </div>
 
           <div className="flex flex-row items-center gap-x-1.5 text-[#707070] text-sm font-medium">
@@ -188,6 +195,10 @@ const Card: React.FC<CardProps> = ({ handleResponseData, count }) => {
       />
 
       {showLoader && <Loader />}
+
+      {showFileList && (
+        <FileList data={data} onClose={() => setShowFileList(false)} />
+      )}
     </>
   );
 };
