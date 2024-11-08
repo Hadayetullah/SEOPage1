@@ -5,7 +5,23 @@ import axios from "axios";
 import Image from "next/image";
 import UploadModal from "./UploadModal";
 
-const Card = () => {
+interface CardProps {
+  handleResponseData: (data: FileData[]) => void;
+  count: number;
+}
+
+export type FileData = {
+  id: number;
+  name: string;
+  upload_date: string;
+  file_url: string;
+};
+
+interface FileUploadResponse {
+  all_files: FileData[];
+}
+
+const Card: React.FC<CardProps> = ({ handleResponseData, count }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showLoader, setShowLoader] = useState<boolean>(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -19,10 +35,7 @@ const Card = () => {
   };
 
   const handleFilesSelected = (files: File[]) => {
-    files.forEach((file) => {
-      const fileExtension = file.name.split(".").pop() || "unknown";
-      console.log(`File Name: ${file.name}, Extension: ${fileExtension}`);
-    });
+    setSelectedFiles(files);
   };
 
   const handleSubmit = async () => {
@@ -33,11 +46,17 @@ const Card = () => {
       const formData = new FormData();
       selectedFiles.forEach((file) => formData.append("files", file));
 
-      const response = await axios.post("/api/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post<FileUploadResponse>(
+        "http://127.0.0.1:8000/api/upload/",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      console.log("Upload response:", response.data); // Handle response data as needed
+      // console.log("Upload response:", response.data.all_files);
+      handleResponseData(response.data.all_files);
+      setSelectedFiles([]);
     } catch (error) {
       console.error("Error uploading files:", error);
     } finally {
@@ -143,7 +162,7 @@ const Card = () => {
               onClick={handleIconClick}
             />
 
-            <h4>0</h4>
+            <h4>{count}</h4>
           </div>
 
           <div className="flex flex-row items-center gap-x-1.5 text-[#707070] text-sm font-medium">
@@ -169,7 +188,7 @@ const Card = () => {
 
       {showLoader && (
         <div className="loader-overlay">
-          <div className="loader">Loading...</div>
+          <div className="loader"></div>
         </div>
       )}
     </>

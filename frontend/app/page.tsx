@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import Card from "@/components/Card";
+import Card, { FileData } from "@/components/Card";
+import { useState } from "react";
 
 export default function Home() {
+  const [response, setResponse] = useState<FileData[]>([]);
   const tablesTitle = [
     {
       title: "Incomplete",
@@ -24,6 +28,12 @@ export default function Home() {
       bg: null,
     },
   ];
+
+  const handleResponseData = (data: FileData[]) => {
+    setResponse(data);
+  };
+
+  console.log("response: ", response.length);
 
   return (
     <div className="bg-white py-2 mx-4">
@@ -49,9 +59,17 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="scrollable-element w-full pt-12 px-[6px] flex flex-col gap-y-4 h-[95vh] overflow-y-auto">
-                  {Array.from({ length: 10 }).map((_, index) => (
-                    <Card key={index} />
-                  ))}
+                  {response && (
+                    <>
+                      {Array.from({ length: 10 }).map((_, index) => (
+                        <Card
+                          key={index}
+                          handleResponseData={handleResponseData}
+                          count={response.length}
+                        />
+                      ))}
+                    </>
+                  )}
                 </div>
               </div>
             </div>
