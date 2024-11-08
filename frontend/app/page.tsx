@@ -36,6 +36,7 @@ export default function Home() {
   };
 
   const getData = async () => {
+    console.log(process.env.NEXT_PUBLIC_API_HOST);
     try {
       const response = await axios.get<FileUploadResponse>(
         `${process.env.NEXT_PUBLIC_API_HOST}/api/files/list/`
