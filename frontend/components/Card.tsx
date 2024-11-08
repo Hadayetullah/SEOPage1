@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import UploadModal from "./UploadModal";
+import Loader from "./Loader";
 
 interface CardProps {
   handleResponseData: (data: FileData[]) => void;
@@ -186,11 +187,7 @@ const Card: React.FC<CardProps> = ({ handleResponseData, count }) => {
         onSubmit={handleSubmit}
       />
 
-      {showLoader && (
-        <div className="loader-overlay">
-          <div className="loader"></div>
-        </div>
-      )}
+      {showLoader && <Loader />}
     </>
   );
 };

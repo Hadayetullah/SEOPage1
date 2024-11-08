@@ -3,6 +3,7 @@
 import axios from "axios";
 import Card, { FileData, FileUploadResponse } from "@/components/Card";
 import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
 
 export default function Home() {
   const [response, setResponse] = useState<FileData[]>([]);
@@ -53,7 +54,7 @@ export default function Home() {
   }, []);
 
   if (isLoading) {
-    return null;
+    return <Loader />;
   } else {
     return (
       <div className="bg-white py-2 mx-4">
