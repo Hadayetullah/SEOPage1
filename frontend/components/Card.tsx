@@ -17,9 +17,9 @@ export type FileData = {
   file_url: string;
 };
 
-interface FileUploadResponse {
+export type FileUploadResponse = {
   all_files: FileData[];
-}
+};
 
 const Card: React.FC<CardProps> = ({ handleResponseData, count }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
