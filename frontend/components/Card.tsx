@@ -50,7 +50,7 @@ const Card: React.FC<CardProps> = ({ handleResponseData, data }) => {
       selectedFiles.forEach((file) => formData.append("files", file));
 
       const response = await axios.post<FileUploadResponse>(
-        "http://127.0.0.1:8000/api/upload/",
+        `${process.env.NEXT_PUBLIC_API_HOST}/api/upload/`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
