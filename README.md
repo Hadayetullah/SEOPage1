@@ -1,4 +1,4 @@
-# Live at https://seo-page1-practical-test.vercel.app/
+# Live at https://simple-todo-task-management.vercel.app
 
 ### Note:
 
